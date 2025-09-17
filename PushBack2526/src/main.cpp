@@ -18,6 +18,8 @@ using namespace vex;
 competition Competition;
 
 bool intakeActive = false; 
+bool gateClosed = true;
+bool defenseActive = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -34,7 +36,7 @@ void autonomous(void) {
 }
 
 void Intake(){
-  //Boolean initializers.
+  //Before if bool was true then it would be false and vice versa
   intakeActive = !intakeActive;
   //Intake active or not
   if(intakeActive){
@@ -42,8 +44,23 @@ void Intake(){
   }else intake.stop(coast); //Coast allows it to spin freely and naturally to stop.
 }
 
+void ClosingGate(){
+  //Before if bool was true then it would be false and vice versa
+  gateClosed = !gateClosed;
+  backGatePneumatic.set(gateClosed);
+}
+
+void DefenseActivation(){
+  //Before if bool was true then it would be false and vice versa
+  defenseActive = !defenseActive;
+  defensePneumatic.set(defenseActive);
+}
+
 void NonDriveMovement(){
+  // Controls will be changed
   Controller1.ButtonA.pressed(Intake);
+  Controller1.ButtonB.pressed(ClosingGate());
+  Controller1.ButtonDown.pressed(DefenseActivation());
 }
 
 void TankDrive(){
