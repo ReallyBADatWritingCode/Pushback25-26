@@ -6,6 +6,8 @@ using namespace vex;
 brain Brain;
 
 controller Controller1 = controller(primary);
+digital_out defensePneumatic = digital_out(Brain.ThreeWirePort.A);
+digital_out backGatePneumatic = digital_out(Brain.ThreeWirePort.B);
 motor leftA = motor(PORT1, ratio18_1, false);
 motor leftB = motor(PORT2, ratio18_1, false);
 motor leftC = motor(PORT3, ratio18_1, false);
@@ -13,7 +15,7 @@ motor_group leftGroup = motor_group(leftA, leftB, leftC);
 motor rightA = motor(PORT11, ratio18_1, true);
 motor rightB = motor(PORT12, ratio18_1, true);
 motor rightC = motor(PORT13, ratio18_1, true);
-motor_group leftGroup = motor_group(rightA, rightB, rightC);
+motor_group rightGroup = motor_group(rightA, rightB, rightC);
 motor intake = motor(PORT10, ratio18_1, false);
 
 /**
