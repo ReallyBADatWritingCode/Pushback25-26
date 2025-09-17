@@ -12,6 +12,8 @@ extern motor rightA;
 extern motor rightB;
 extern motor rightC;
 extern motor_group rightGroup;
+extern digital_out defensePneumatic = digital_out(Brain.ThreeWirePort.A);
+extern digital_out backGatePneumatic = digital_out(Brain.ThreeWirePort.B);
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
