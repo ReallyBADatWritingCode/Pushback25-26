@@ -18,8 +18,9 @@ using namespace vex;
 competition Competition;
 
 bool intakeActive = false; 
-bool gateClosed = true;
-bool defenseActive = false;
+bool lowerGoal = false;
+bool middleGoal = false;
+bool topGoal = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -30,9 +31,41 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
+  //Driving forward
+  rightGroup.spinFor(forward, (24 / (10.2)), rotationUnits::rev, 50, percent, false);
+  leftGroup.spinFor(forward, (24 / (10.2)), rotationUnits::rev, 50, percent, true);
+  //Rotating towards triballs
+  rightGroup.spinFor(reverse, (12 / 10.2), rotationUnits::rev, 50, percent, true);
+  //Moving towards triballs
+  rightGroup.spinFor(forward, (12 / (10.2)), rotationUnits::rev, 50, percent, false);
+  leftGroup.spinFor(forward, (12 / (10.2)), rotationUnits::rev, 50, percent, true);
+  //Intake Active
+  intake.spin(forward, 100, percent);
+  task::sleep(2000);
+  intake.stop(coast);
+  //Moving towards the matchloader
+  leftGroup.spinFor(forward, (6 / (10.2)), rotationUnits::rev, 50, percent, true); //Rotating to face diagnaly
+  //Moving diagnolly
+  rightGroup.spinFor(forward, (34 / (10.2)), rotationUnits::rev, 50, percent, false); 
+  leftGroup.spinFor(forward, (34 / (10.2)), rotationUnits::rev, 50, percent, true);
+  //Rotating to matchloader
+  rightGroup.spinFor(forward, (6 / (10.2)), rotationUnits::rev, 50, percent, true);
+  //Pneumatic extend
+  matchloaderExtend.set(true);
+  matchloaderRetract.set(false);
+  //Move Forward
+  rightGroup.spinFor(forward, (24 / (10.2)), rotationUnits::rev, 100, percent, false);
+  leftGroup.spinFor(forward, (24 / (10.2)), rotationUnits::rev, 100, percent, true);
+  //Intake from matchloader
+  intake.spin(forward, 100, percent);
+  task::sleep(1000);
+  intake.stop(coast);
+  //Score
+  rightGroup.spinFor(forward, (42 / (10.2)), rotationUnits::rev, 50, percent, false);
+  leftGroup.spinFor(forward, (42 / (10.2)), rotationUnits::rev, 50, percent, true);
+  topGoal.spin(reverse, 100, percent);
+  task::sleep(2000);
+  intake.stop(coast);
 }
 
 void Intake(){
@@ -44,23 +77,32 @@ void Intake(){
   }else intake.stop(coast); //Coast allows it to spin freely and naturally to stop.
 }
 
-void ClosingGate(){
-  //Before if bool was true then it would be false and vice versa
-  gateClosed = !gateClosed;
-  backGatePneumatic.set(gateClosed);
+void LowerGoal(){
+  lowerGoal = !lowerGoal;
+  if(lowerGoal) intake.spin(reverse, 100, percent);
+  else intake.stop(coast);
 }
 
-void DefenseActivation(){
-  //Before if bool was true then it would be false and vice versa
-  defenseActive = !defenseActive;
-  defensePneumatic.set(defenseActive);
+void MiddleGoal(){
+  middleGoal = !middleGoal;
+  if(middleGoal){
+    topOutTake.spin(forward, 100, percent);
+    bottomOutTake.spin(reverse, 100, percent);
+  }else outTake.stop(coast);
+}
+
+void TopGoal(){
+  topGoal = !topGoal;
+  if(topGoal) topOutTake.spin(reverse, 100, percent);
+  else topOutTake.stop(coast);
 }
 
 void NonDriveMovement(){
   // Controls will be changed
   Controller1.ButtonA.pressed(Intake);
-  Controller1.ButtonB.pressed(ClosingGate());
-  Controller1.ButtonDown.pressed(DefenseActivation());
+  Controller1.ButtonB.pressed(LowerGoal);
+  Controller1.ButtonDown.pressed(MiddleGoal);
+  Controller1.ButtonL1.pressed(TopGoal);
 }
 
 void TankDrive(){
