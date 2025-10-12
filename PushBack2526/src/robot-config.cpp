@@ -17,7 +17,12 @@ motor rightB = motor(PORT12, ratio18_1, true);
 motor rightC = motor(PORT13, ratio18_1, true);
 motor_group rightGroup = motor_group(rightA, rightB, rightC);
 motor intake = motor(PORT10, ratio18_1, false);
-
+motor topOutTake = motor(PORT14, ratio18_1, false);
+motor bottomOutTake = motor(PORT15, ratio18_1, false);
+motor_group outTake = motor_group(topOutTake, bottomOutTake);
+pneumatics matchloaderExtend(Brain.ThreeWirePort.A);
+pneumatics matchloaderRetract(Brain.ThreeWirePort.B);
+optical colorSensor(Brain.ThreeWirePort.C);
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
