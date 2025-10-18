@@ -5,12 +5,17 @@ class Drive;
 
 extern Drive chassis;
 
-void default_constants();
+extern void default_constants();
 
-void drive_test();
-void turn_test();
-void swing_test();
-void full_test();
-void odom_test();
-void tank_odom_test();
-void holonomic_odom_test();
+extern void red_left();
+extern void red_right();
+extern void blue_left();
+extern void blue_right();
+
+extern void drive_test();
+extern void turn_test();
+extern void swing_test();
+extern void full_test();
+extern void odom_test();
+extern void tank_odom_test();
+extern void holonomic_odom_test();

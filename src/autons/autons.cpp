@@ -1,5 +1,4 @@
 #include "vex.h"
-#include <iostream>
 
 void default_constants(){
   chassis.set_drive_constants(10, 1.5, 0, 10, 0);
@@ -81,7 +80,7 @@ void red_right() {
     IntakeSystem.setVelocity(100, percent);
     colorSensorMotor.setVelocity(100, percent);
     bottomOutTake.setVelocity(100, percent);
-    topOutake.setVelocity(100, percent);
+    colorSensorMotor.setVelocity(100, percent);
     //Collect first 3 triballs
     chassis.turn_to_angle(335);
     leftGroup.spin(forward);
@@ -100,13 +99,13 @@ void red_right() {
     task::sleep(500);
     leftGroup.stop();
     rightGroup.stop();
-    topOutake.spin(reverse);
+    colorSensorMotor.spin(reverse);
     bottomOutTake.spin(forward);
     task::sleep(500);
     //Loader
     leftGroup.spin(forward);
     rightGroup.spin(forward);
-    topOutake.stop();
+    colorSensorMotor.stop();
     bottomOutTake.stop();
     task::sleep(500);
     leftGroup.stop();
@@ -129,7 +128,7 @@ void red_right() {
     IntakeSystem.stop();
     colorSensorMotor.stop();
     task::sleep(500);
-    topOutake.spin(forward);
+    colorSensorMotor.spin(forward);
     bottomOutTake.spin(forward);
 }
 
@@ -140,7 +139,7 @@ void blue_left() {
     IntakeSystem.setVelocity(100, percent);
     colorSensorMotor.setVelocity(100, percent);
     bottomOutTake.setVelocity(100, percent);
-    topOutake.setVelocity(100, percent);
+    colorSensorMotor.setVelocity(100, percent);
     //Collect first 3 triballs
     leftGroup.spin(forward);
     rightGroup.spin(forward);
@@ -159,10 +158,10 @@ void blue_left() {
     leftGroup.stop();
     rightGroup.stop();
     task::sleep(100);
-    topOutake.spin(reverse);
+    colorSensorMotor.spin(reverse);
     bottomOutTake.spin(forward);
     task::sleep(500);
-    topOutake.stop();
+    colorSensorMotor.stop();
     bottomOutTake.stop();
     //Matchloader
     leftGroup.spin(forward);
@@ -187,7 +186,7 @@ void blue_left() {
     task::sleep(600);
     leftGroup.stop();
     rightGroup.stop();
-    topOutake.spin(forward);
+    colorSensorMotor.spin(forward);
     bottomOutTake.spin(forward);
     task::sleep(1000);
 }
@@ -199,7 +198,7 @@ void blue_right() {
     IntakeSystem.setVelocity(100, percent);
     colorSensorMotor.setVelocity(100, percent);
     bottomOutTake.setVelocity(100, percent);
-    topOutake.setVelocity(100, percent);
+    colorSensorMotor.setVelocity(100, percent);
     //Collect first 3 triballs
     leftGroup.spin(forward);
     rightGroup.spin(forward);
@@ -245,7 +244,7 @@ void blue_right() {
     task::sleep(500);
     leftGroup.stop();
     rightGroup.stop();
-    topOutake.spin(forward);
+    colorSensorMotor.spin(forward);
     bottomOutTake.spin(forward);
     task::sleep(1000);
 }

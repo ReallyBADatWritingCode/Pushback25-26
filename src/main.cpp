@@ -1,5 +1,6 @@
 #include "vex.h"
 #include "robot-config.h"
+#include "autons.h"
 #include <iostream>
 
 // ---- START VEXCODE CONFIGURED DEVICES ----
@@ -131,8 +132,9 @@ PORT1,     -PORT1,
 
 enum auton_selection: int {
   // enter names of auton routines here
-  AUTON_1
-  
+  AUTON_1,
+  AUTON_2,
+  AUTON_3
 };
 
 int current_auton_selection = AUTON_1;
@@ -147,12 +149,20 @@ int auton_selector_task() {
         Brain.Screen.setPenColor(red);
         Brain.Screen.printAt(50, 50, "Auton 1");
         break;
+      case AUTON_2:
+        Brain.Screen.setPenColor(red);
+        Brain.Screen.printAt(50, 50, "Auton 2");
+        break;
+      case AUTON_3:
+        Brain.Screen.setPenColor(red);
+        Brain.Screen.printAt(50, 50, "Auton 3");
+        break;
     }
 
     if(Brain.Screen.pressing()) {
       while (Brain.Screen.pressing()) {}
       ++current_auton_selection;
-    } else if (current_auton_selection == AUTON_1/*Last Auton in the enum*/){
+    } else if (current_auton_selection == AUTON_3/*Last Auton in the enum*/){
       current_auton_selection = 0;
     }
     task::sleep(10);
@@ -172,7 +182,13 @@ void autonomous(void) {
     // add other auton routines here
     case AUTON_1:
       // call the name of the function
-      // ex: BlueLeft();
+      red_right();
+      break;
+    case AUTON_2:
+      blue_left();
+      break;
+    case AUTON_3:
+      blue_right();
       break;
   }
 }
@@ -224,21 +240,23 @@ void usercontrol(void) {
         // fifth number is the minimum output, which is the minimum speed the robot will move at when the joystick is pushed past the deadband.
         // speed ranges from -127 to +127.
         chassis.control_tank(); 
-        //Intaking.
-        if (Controller1.ButtonX.pressing())
-        {
-            colorSensor.setLightPower(100, percent);
-            colorSensor.setLight(ledState::on);
-            IntakeSystem.setVelocity(100, percent);
-            IntakeSystem.spin(forward);
-            double hue = colorSensor.hue();
-            if((hue < 30) && (hue > 330)){
-                colorSensorMotor.setVelocity(100, percent);
-                (isRedTeam) ? colorSensorMotor.spin(forward) : colorSensorMotor.spin(reverse);
-            }else if(hue > 180 && hue < 250){
-                colorSensorMotor.setVelocity(100, percent);
-                (isRedTeam) ? colorSensorMotor.spin(reverse) : colorSensorMotor.spin(forward);
-            }
+        //Manual color sort
+        if(Controller1.ButtonA.pressing()){ //In
+          colorSensorMotor.setVelocity(100, percent);
+          colorSensorMotor.spin(reverse);
+        }
+        else if(Controller1.ButtonB.pressing()){ //Out
+          colorSensorMotor.setVelocity(100, percent);
+          colorSensorMotor.spin(forward);
+        }
+        //Middle conveyor
+        else if(Controller1.ButtonUp.pressing()){
+          bottomOutTake.setVelocity(100, percent);
+          bottomOutTake.spin(forward);
+        }
+        else if(Controller1.ButtonDown.pressing()){
+          bottomOutTake.setVelocity(100, percent);
+          bottomOutTake.spin(reverse);
         }
         //LowerGoal
         else if (Controller1.ButtonY.pressing())
@@ -247,33 +265,39 @@ void usercontrol(void) {
             IntakeSystem.spin(reverse);
         }
         //Middle goal
-        else if (Controller1.ButtonR2.pressing())
+        else if (Controller1.ButtonL2.pressing())
         {
             IntakeSystem.setVelocity(100, percent);
-            topOutake.setVelocity(100, percent);
+            colorSensorMotor.setVelocity(100, percent);
             bottomOutTake.setVelocity(100, percent);
-            topOutake.spin(reverse);
+            colorSensorMotor.spin(reverse);
             bottomOutTake.spin(forward);
         }
         //Top Goal
-        else if(Controller1.ButtonR1.pressing()){
-            topOutake.setVelocity(100, percent);
+        else if(Controller1.ButtonL1.pressing()){
+            colorSensorMotor.setVelocity(100, percent);
             bottomOutTake.setVelocity(100, percent);
-            topOutake.spin(forward);
+            colorSensorMotor.spin(forward);
             //Bottom outtakeis being used as middle conveyor here
             bottomOutTake.spin(forward);
+        }else if (Controller1.ButtonX.pressing())
+        {
+            IntakeSystem.setVelocity(100, percent);
+            IntakeSystem.spin(forward);
         }
         else
         {
             IntakeSystem.stop();
-            topOutake.stop();
+            colorSensorMotor.stop();
             bottomOutTake.stop();
         } 
-        if (Controller1.ButtonA.pressing())
+
+
+        if (Controller1.ButtonR1.pressing())
         {
             Scraper.set(true);
         }
-        else if(Controller1.ButtonB.pressing())
+        else if(Controller1.ButtonR2.pressing())
         {
             Scraper.set(false);
         }
