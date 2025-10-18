@@ -20,7 +20,7 @@ motor_group leftGroup = motor_group(LeftFront, LeftMid, LeftBack);
 
 motor RightFront = motor(PORT20, ratio6_1, false);
 motor RightMid = motor(PORT19, ratio6_1, false);
-motor RightBack = motor(PORT11, ratio6_1, false);
+motor RightBack = motor(PORT13, ratio6_1, false);
 motor_group rightGroup = motor_group(RightFront, RightMid, RightBack);
 
 digital_out Scraper = digital_out(Brain.ThreeWirePort.A);
