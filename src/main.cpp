@@ -134,10 +134,11 @@ enum auton_selection: int {
   // enter names of auton routines here
   AUTON_1,
   AUTON_2,
-  AUTON_3
+  AUTON_3,
+  AUTON_4
 };
 
-int current_auton_selection = AUTON_1;
+int current_auton_selection = AUTON_4;
 bool auto_started = false;
 
 int auton_selector_task() {
@@ -157,12 +158,16 @@ int auton_selector_task() {
         Brain.Screen.setPenColor(red);
         Brain.Screen.printAt(50, 50, "Auton 3");
         break;
+      case AUTON_4:
+        Brain.Screen.setPenColor(red);
+        Brain.Screen.printAt(50, 50, "Auton 4");
+        break;
     }
 
     if(Brain.Screen.pressing()) {
       while (Brain.Screen.pressing()) {}
       ++current_auton_selection;
-    } else if (current_auton_selection == AUTON_3/*Last Auton in the enum*/){
+    } else if (current_auton_selection == AUTON_4/*Last Auton in the enum*/){
       current_auton_selection = 0;
     }
     task::sleep(10);
@@ -189,7 +194,8 @@ void autonomous(void) {
       break;
     case AUTON_3:
       blue_right();
-      break;
+    case AUTON_4:
+      //red_left();
   }
 }
 
@@ -219,17 +225,10 @@ void usercontrol(void) {
 
     // bind any button press-release events here, i.e. Controller1.ButtonA.pressed(intake.toggle);
 
-    // systems that are controlled by button holds and joysticks are done in the while loop below
-    bool isRedTeam;
-    bool chosen = false;
+    bool defenseActive = false;
+    bool scoringMid = false;
+    bool scraperActive = false;
     while (true) {
-        if(!chosen && Controller1.ButtonL2.PRESSED){
-            chosen = true;
-            isRedTeam = true;
-        }else if(!chosen && Controller1.ButtonL1.PRESSED){
-            chosen = true;
-            isRedTeam = false;
-        }
         // drivebase control
         chassis.set_brake_type(coast);
         // the numbers here are the joystick curve parameters.
@@ -240,66 +239,36 @@ void usercontrol(void) {
         // fifth number is the minimum output, which is the minimum speed the robot will move at when the joystick is pushed past the deadband.
         // speed ranges from -127 to +127.
         chassis.control_tank(); 
-        //Manual color sort
-        if(Controller1.ButtonA.pressing()){ //In
-          colorSensorMotor.setVelocity(100, percent);
-          colorSensorMotor.spin(reverse);
-        }
-        else if(Controller1.ButtonB.pressing()){ //Out
-          colorSensorMotor.setVelocity(100, percent);
-          colorSensorMotor.spin(forward);
-        }
-        //Middle conveyor
-        else if(Controller1.ButtonUp.pressing()){
-          bottomOutTake.setVelocity(100, percent);
-          bottomOutTake.spin(forward);
-        }
-        else if(Controller1.ButtonDown.pressing()){
-          bottomOutTake.setVelocity(100, percent);
-          bottomOutTake.spin(reverse);
-        }
-        //LowerGoal
-        else if (Controller1.ButtonY.pressing())
-        {
-            IntakeSystem.setVelocity(100, percent);
-            IntakeSystem.spin(reverse);
-        }
-        //Middle goal
-        else if (Controller1.ButtonL2.pressing())
-        {
-            IntakeSystem.setVelocity(100, percent);
-            colorSensorMotor.setVelocity(100, percent);
-            bottomOutTake.setVelocity(100, percent);
-            colorSensorMotor.spin(reverse);
-            bottomOutTake.spin(forward);
-        }
-        //Top Goal
+        //Intake
+        if(Controller1.ButtonX.pressing()){
+          IntakeSystem.setVelocity(100, percent);
+          IntakeSystem.spin(forward);
+        }// Lower goal
+        else if(Controller1.ButtonY.pressing()){
+          IntakeSystem.setVelocity(100, percent);
+          IntakeSystem.spin(reverse);
+        }//Score
+        else if(Controller1.ButtonR1.pressing()){
+          OutTakeSystem.setVelocity(100, percent);
+          OutTakeSystem.spin(forward);
+        } // Mid score
         else if(Controller1.ButtonL1.pressing()){
-            colorSensorMotor.setVelocity(100, percent);
-            bottomOutTake.setVelocity(100, percent);
-            colorSensorMotor.spin(forward);
-            //Bottom outtakeis being used as middle conveyor here
-            bottomOutTake.spin(forward);
-        }else if (Controller1.ButtonX.pressing())
-        {
-            IntakeSystem.setVelocity(100, percent);
-            IntakeSystem.spin(forward);
-        }
-        else
-        {
-            IntakeSystem.stop();
-            colorSensorMotor.stop();
-            bottomOutTake.stop();
-        } 
-
-
-        if (Controller1.ButtonR1.pressing())
-        {
-            Scraper.set(true);
-        }
-        else if(Controller1.ButtonR2.pressing())
-        {
-            Scraper.set(false);
+          scoringMid = !scoringMid;
+          (scoringMid) ? midGoal.set(true) : midGoal.set(false);
+        }//Defense
+        else if(Controller1.ButtonL2.pressing()){
+          defenseActive = !defenseActive;
+          if(defenseActive){
+            defenseRight.set(true);
+            defenseLeft.set(true);
+          }else{
+            defenseRight.set(false);
+            defenseLeft.set(false);
+          }
+        }//Scraper
+        else if(Controller1.ButtonR2.pressing()){
+          scraperActive = !scraperActive;
+          (scraperActive) ? Scraper.set(true) : Scraper.set(false);
         }
         // input controls for other subsystems here
         task::sleep(10); // Sleep the task for a short amount of time to prevent wasted resources.

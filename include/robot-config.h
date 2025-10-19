@@ -18,12 +18,12 @@ extern motor RightBack;
 extern motor_group rightGroup;
 
 extern digital_out Scraper;
+extern digital_out midGoal;
+extern digital_out defenseRight;
+extern digital_out defenseLeft;
 
 extern motor IntakeSystem;
-extern motor colorSensorMotor;
-
-extern motor topOutake;
-extern motor bottomOutTake;
+extern motor OutTakeSystem;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  * 

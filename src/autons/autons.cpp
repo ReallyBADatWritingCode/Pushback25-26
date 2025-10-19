@@ -13,6 +13,13 @@ void default_constants(){
 }
 
 void red_left() {
+  leftGroup.setVelocity(60,percent);
+  rightGroup.setVelocity(60,percent);
+  leftGroup.spin(forward);
+  rightGroup.spin(forward);
+  task::sleep(500);
+  leftGroup.stop();
+  rightGroup.stop();
   /*
     chassis.set_coordinates(-128.349, 21.038, 0);
     leftGroup.setVelocity(60, percent);
@@ -74,179 +81,15 @@ void red_left() {
 }
 
 void red_right() {
-    chassis.set_coordinates(-128.349, -20.14, 0);
-    leftGroup.setVelocity(60, percent);
-    rightGroup.setVelocity(60, percent);
-    IntakeSystem.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    bottomOutTake.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    //Collect first 3 triballs
-    chassis.turn_to_angle(335);
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(reverse);
-    task::sleep(500);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    //Center goal
-    chassis.turn_to_angle(45);
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    task::sleep(500);
-    leftGroup.stop();
-    rightGroup.stop();
-    colorSensorMotor.spin(reverse);
-    bottomOutTake.spin(forward);
-    task::sleep(500);
-    //Loader
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    colorSensorMotor.stop();
-    bottomOutTake.stop();
-    task::sleep(500);
-    leftGroup.stop();
-    rightGroup.stop();
-    chassis.turn_to_angle(180);
-    task::sleep(250);
-    Scraper.set(true);
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    task::sleep(250);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(reverse);
-    task::sleep(500);
-    //Top goal
-    Scraper.set(false);
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    task::sleep(500);
-    colorSensorMotor.spin(forward);
-    bottomOutTake.spin(forward);
+    
 }
 
 void blue_left() {
-    chassis.set_coordinates(140.447, -22.681, 205);
-    leftGroup.setVelocity(60, percent);
-    rightGroup.setVelocity(60, percent);
-    IntakeSystem.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    bottomOutTake.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    //Collect first 3 triballs
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(forward);
-    task::sleep(700);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    //Middle goal
-    chassis.turn_to_angle(310);
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    task::sleep(200);
-    leftGroup.stop();
-    rightGroup.stop();
-    task::sleep(100);
-    colorSensorMotor.spin(reverse);
-    bottomOutTake.spin(forward);
-    task::sleep(500);
-    colorSensorMotor.stop();
-    bottomOutTake.stop();
-    //Matchloader
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    task::sleep(1000);
-    leftGroup.stop();
-    rightGroup.stop();
-    chassis.turn_to_angle(0);
-    Scraper.set(true);
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(reverse);
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    task::sleep(800);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    //Long goal
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    task::sleep(600);
-    leftGroup.stop();
-    rightGroup.stop();
-    colorSensorMotor.spin(forward);
-    bottomOutTake.spin(forward);
-    task::sleep(1000);
+    
 }
 
 void blue_right() {
-    chassis.set_coordinates(138.266, 21.481, 160);
-    leftGroup.setVelocity(60, percent);
-    rightGroup.setVelocity(60, percent);
-    IntakeSystem.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    bottomOutTake.setVelocity(100, percent);
-    colorSensorMotor.setVelocity(100, percent);
-    //Collect first 3 triballs
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    IntakeSystem.spin(forward);
-    task::sleep(700);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.stop();
-    //Lower goal
-    chassis.turn_to_angle(230);
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    task::sleep(200);
-    leftGroup.stop();
-    rightGroup.stop();
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(reverse);
-    task::sleep(1000);
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    task::sleep(500);
-    leftGroup.stop();
-    rightGroup.stop();
-    // Matchloader
-    chassis.turn_to_angle(0);
-    Scraper.set(true);
-    IntakeSystem.spin(forward);
-    colorSensorMotor.spin(reverse);
-    leftGroup.spin(forward);
-    rightGroup.spin(forward);
-    task::sleep(300);
-    leftGroup.stop();
-    rightGroup.stop();
-    task::sleep(1000);
-    IntakeSystem.stop();
-    colorSensorMotor.stop();
-    //Top Goal
-    Scraper.set(false);
-    leftGroup.spin(reverse);
-    rightGroup.spin(reverse);
-    task::sleep(500);
-    leftGroup.stop();
-    rightGroup.stop();
-    colorSensorMotor.spin(forward);
-    bottomOutTake.spin(forward);
-    task::sleep(1000);
+    
 }
 
 void skills() {

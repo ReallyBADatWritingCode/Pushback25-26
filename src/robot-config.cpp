@@ -24,11 +24,13 @@ motor RightBack = motor(PORT13, ratio6_1, false);
 motor_group rightGroup = motor_group(RightFront, RightMid, RightBack);
 
 digital_out Scraper = digital_out(Brain.ThreeWirePort.A);
+digital_out midGoal = digital_out(Brain.ThreeWirePort.B);
+digital_out defenseRight = digital_out(Brain.ThreeWirePort.C);
+digital_out defenseLeft = digital_out(Brain.ThreeWirePort.D);
 
 motor IntakeSystem = motor(PORT16, ratio6_1, false);
-motor colorSensorMotor = motor(PORT15, ratio6_1, true);//Also top outtake
+motor OutTakeSystem = motor(PORT17, ratio6_1, false);
 
-motor bottomOutTake = motor(PORT21, ratio6_1, true); //Also used as middle conveyor
 
 
 
