@@ -183,20 +183,7 @@ int subsystem_task() {
 }
 
 void autonomous(void) {
-  switch(current_auton_selection) {  
-    // add other auton routines here
-    case AUTON_1:
-      // call the name of the function
-      red_right();
-      break;
-    case AUTON_2:
-      blue_left();
-      break;
-    case AUTON_3:
-      blue_right();
-    case AUTON_4:
-      //red_left();
-  }
+  red_left();
 }
 
 void pre_auton(void) {
@@ -225,9 +212,6 @@ void usercontrol(void) {
 
     // bind any button press-release events here, i.e. Controller1.ButtonA.pressed(intake.toggle);
 
-    bool defenseActive = false;
-    bool scoringMid = false;
-    bool scraperActive = false;
     while (true) {
         // drivebase control
         chassis.set_brake_type(coast);
@@ -242,33 +226,26 @@ void usercontrol(void) {
         //Intake
         if(Controller1.ButtonX.pressing()){
           IntakeSystem.setVelocity(100, percent);
-          IntakeSystem.spin(forward);
+          IntakeSystem.spin(reverse);
         }// Lower goal
         else if(Controller1.ButtonY.pressing()){
           IntakeSystem.setVelocity(100, percent);
-          IntakeSystem.spin(reverse);
+          IntakeSystem.spin(forward);
         }//Score
         else if(Controller1.ButtonR1.pressing()){
           OutTakeSystem.setVelocity(100, percent);
-          OutTakeSystem.spin(forward);
-        } // Mid score
-        else if(Controller1.ButtonL1.pressing()){
-          scoringMid = !scoringMid;
-          (scoringMid) ? midGoal.set(true) : midGoal.set(false);
-        }//Defense
-        else if(Controller1.ButtonL2.pressing()){
-          defenseActive = !defenseActive;
-          if(defenseActive){
-            defenseRight.set(true);
-            defenseLeft.set(true);
-          }else{
-            defenseRight.set(false);
-            defenseLeft.set(false);
-          }
-        }//Scraper
+          OutTakeSystem.spin(reverse);
+        }//Stop intake
+        else if(Controller1.ButtonUp.pressing()){
+          IntakeSystem.stop();
+        }//Stop scoring
         else if(Controller1.ButtonR2.pressing()){
-          scraperActive = !scraperActive;
-          (scraperActive) ? Scraper.set(true) : Scraper.set(false);
+          OutTakeSystem.stop();
+        }//MidPneumatics
+        else if(Controller1.ButtonL1.pressing()){
+          midGoal.set(true);
+        }else if(Controller1.ButtonL2.pressing()){
+          midGoal.set(false);
         }
         // input controls for other subsystems here
         task::sleep(10); // Sleep the task for a short amount of time to prevent wasted resources.

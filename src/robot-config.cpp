@@ -1,8 +1,5 @@
 #include "vex.h"
-
 using namespace vex;
-using signature = vision::signature;
-using code = vision::code;
 
 // A global instance of brain used for printing to the V5 Brain screen
 brain  Brain;
@@ -10,7 +7,6 @@ brain  Brain;
 // VEXcode device constructors
 controller Controller1 = controller(primary);
 inertial InertialSensor = inertial(PORT6);
-optical colorSensor(PORT14);
 
 motor LeftFront = motor(PORT7, ratio6_1, true);
 motor LeftMid = motor(PORT10, ratio6_1, true);

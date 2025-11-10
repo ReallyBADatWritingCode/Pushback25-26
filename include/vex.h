@@ -17,13 +17,13 @@
 #include "v5.h"
 #include "v5_vcs.h"
 
-#include "robot-config.h"
 #include "NH-Template/PID.h"
 #include "NH-Template/vector2.h"
 #include "NH-Template/util.h"
 #include "NH-Template/odom.h"
 #include "NH-Template/drive.h"
 
+#include "robot-config.h"
 #include "autons.h"
 
 #define waitUntil(condition)                                                   \
