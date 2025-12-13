@@ -7,11 +7,8 @@ extern Drive chassis;
 
 extern void default_constants();
 
-extern void red_left();
-extern void red_right();
-extern void blue_left();
-extern void blue_right();
-
+extern void leftAuton();
+extern void rightAuton();
 extern void drive_test();
 extern void turn_test();
 extern void swing_test();

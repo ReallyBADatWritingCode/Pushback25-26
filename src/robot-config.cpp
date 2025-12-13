@@ -6,26 +6,24 @@ brain  Brain;
 
 // VEXcode device constructors
 controller Controller1 = controller(primary);
-inertial InertialSensor = inertial(PORT6);
+inertial InertialSensor = inertial(PORT1);
 
-motor LeftFront = motor(PORT7, ratio6_1, true);
-motor LeftMid = motor(PORT10, ratio6_1, true);
-motor LeftBack = motor(PORT8, ratio6_1, true);
+motor LeftFront = motor(PORT18, ratio6_1, true);
+motor LeftMid = motor(PORT12, ratio6_1, true);
+motor LeftBack = motor(PORT19, ratio6_1, true);
 motor_group leftGroup = motor_group(LeftFront, LeftMid, LeftBack);
 
 
-motor RightFront = motor(PORT20, ratio6_1, false);
-motor RightMid = motor(PORT19, ratio6_1, false);
-motor RightBack = motor(PORT13, ratio6_1, false);
+motor RightFront = motor(PORT6, ratio6_1, false);
+motor RightMid = motor(PORT8, ratio6_1, false);
+motor RightBack = motor(PORT10, ratio6_1, false);
 motor_group rightGroup = motor_group(RightFront, RightMid, RightBack);
 
-digital_out Scraper = digital_out(Brain.ThreeWirePort.A);
-digital_out midGoal = digital_out(Brain.ThreeWirePort.B);
-digital_out defenseRight = digital_out(Brain.ThreeWirePort.C);
-digital_out defenseLeft = digital_out(Brain.ThreeWirePort.D);
+digital_out Scraper = digital_out(Brain.ThreeWirePort.B);
+digital_out midGoal = digital_out(Brain.ThreeWirePort.A);
 
 motor IntakeSystem = motor(PORT16, ratio6_1, false);
-motor OutTakeSystem = motor(PORT17, ratio6_1, false);
+motor OutTakeSystem = motor(PORT17, ratio18_1, false);
 
 
 

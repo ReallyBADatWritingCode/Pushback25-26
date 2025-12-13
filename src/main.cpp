@@ -64,7 +64,7 @@ motor_group(LeftFront, LeftMid, LeftBack),
 motor_group(RightFront, RightMid, RightBack),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT6,
+PORT1,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -138,7 +138,7 @@ enum auton_selection: int {
   AUTON_4
 };
 
-int current_auton_selection = AUTON_4;
+int current_auton_selection = AUTON_1;
 bool auto_started = false;
 
 int auton_selector_task() {
@@ -183,7 +183,7 @@ int subsystem_task() {
 }
 
 void autonomous(void) {
-  red_left();
+  leftAuton();
 }
 
 void pre_auton(void) {
@@ -191,7 +191,7 @@ void pre_auton(void) {
   vexcodeInit();
   default_constants();
   chassis.Gyro.calibrate();
-  while (chassis.Gyro.isCalibrating()) wait(100, msec);
+  while(chassis.Gyro.isCalibrating()) wait(100, msec);
   //auto t = task(auton_selector_task);
   auto t2 = task(subsystem_task);
 }
@@ -222,30 +222,30 @@ void usercontrol(void) {
         // fourth number is the angle range in which the joystick can be pushed such that the velocity will be determined by the distance to the center (see https://www.desmos.com/3d/qgptoofme0)
         // fifth number is the minimum output, which is the minimum speed the robot will move at when the joystick is pushed past the deadband.
         // speed ranges from -127 to +127.
-        chassis.control_tank(); 
+        chassis.control_arcade(); 
+        Brain.Screen.print(chassis.get_absolute_heading());
         //Intake
-        if(Controller1.ButtonX.pressing()){
+        if(Controller1.ButtonB.pressing()){
           IntakeSystem.setVelocity(100, percent);
           IntakeSystem.spin(reverse);
-        }// Lower goal
-        else if(Controller1.ButtonY.pressing()){
-          IntakeSystem.setVelocity(100, percent);
-          IntakeSystem.spin(forward);
         }//Score
         else if(Controller1.ButtonR1.pressing()){
           OutTakeSystem.setVelocity(100, percent);
           OutTakeSystem.spin(reverse);
-        }//Stop intake
-        else if(Controller1.ButtonUp.pressing()){
-          IntakeSystem.stop();
+          IntakeSystem.setVelocity(100, percent);
+          IntakeSystem.spin(reverse);
+        }//Lower score
+        else if(Controller1.ButtonDown.pressing()){
+          IntakeSystem.spin(forward);
         }//Stop scoring
         else if(Controller1.ButtonR2.pressing()){
           OutTakeSystem.stop();
+          IntakeSystem.stop();
         }//MidPneumatics
         else if(Controller1.ButtonL1.pressing()){
-          midGoal.set(true);
+          Scraper.set(true);
         }else if(Controller1.ButtonL2.pressing()){
-          midGoal.set(false);
+          Scraper.set(false);
         }
         // input controls for other subsystems here
         task::sleep(10); // Sleep the task for a short amount of time to prevent wasted resources.

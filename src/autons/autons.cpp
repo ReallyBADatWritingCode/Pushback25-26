@@ -2,133 +2,92 @@
 
 void default_constants()
 {
-  chassis.set_drive_constants(10, 1.5, 0, 10, 0);
-  chassis.set_heading_constants(6, 0.4, 0, 1, 0);
-  chassis.set_turn_constants(12, 0.39, 0.03, 3, 15);
+  chassis.set_drive_constants(10, 2, 0, 0, 0);
+  chassis.set_heading_constants(6, 1.2, 0, 1, 0); 
+  chassis.set_turn_constants(12, .3, .3, .45, 0);
   chassis.set_swing_constants(12, 0.4, 0.003, 2, 15);
   chassis.set_follow_constants(10, 0.24, 12, 6, 24, 14);
-  chassis.set_drive_exit_conditions(1.5, 100, 3000, 5, 5);
-  chassis.set_turn_exit_conditions(1.5, 100, 500);
-  chassis.set_swing_exit_conditions(1, 100, 1000);
-  chassis.set_follow_exit_conditions(1, 300, 6000);
+  chassis.set_drive_exit_conditions(1.5, 150, 3000, 5, 5);
+  //chassis.set_turn_exit_conditions(1.5, 150, 750);
+  chassis.set_turn_exit_conditions(0.1, 500, 500);
+  chassis.set_swing_exit_conditions(1, 100, 500);
+  chassis.set_follow_exit_conditions(1, 300, 500);
 }
 
-void red_left()
+void leftAuton()
 {
-  chassis.set_coordinates(-61.161, 17.371, 0);
+  chassis.set_coordinates(-61, 17, -90);
   leftGroup.setVelocity(60, percent);
   rightGroup.setVelocity(60, percent);
   IntakeSystem.setVelocity(80, percent);
   OutTakeSystem.setVelocity(80, percent);
   // Getting 3 blocks at center goal
-  chassis.drive_distance(32);
-  chassis.turn_to_angle(30);
-  chassis.drive_distance(7.9);
+  chassis.drive_distance(21);
+  chassis.turn_to_angle(-25);
+  task::sleep(1000);
+  chassis.drive_distance(10.4);
   IntakeSystem.spin(reverse);
-  vex::task::sleep(3000);
-  chassis.turn_to_angle(130);
-  chassis.drive_distance(34.6);
-  //We might not be able to matchload
-  //Long Goal
-  chassis.turn_to_angle(180);
+  Scraper.set(true);
+  task::sleep(3000);
+  IntakeSystem.stop();
+  Scraper.set(false);
+  chassis.drive_distance(-7.2);
+  chassis.turn_to_angle(-65);
+  task::sleep(1000);
+  chassis.drive_distance(32.44);
+  //Long goal
+  chassis.turn_to_angle(360);
+  task::sleep(1000);
   chassis.drive_distance(-16);
   IntakeSystem.spin(reverse);
   OutTakeSystem.spin(reverse);
-
-  vex::task::sleep(3000);
-
-  IntakeSystem.stop();
+  task::sleep(3000);
   OutTakeSystem.stop();
+  IntakeSystem.stop();
 }
 
-void red_right()
+void rightAuton()
 {
-  chassis.set_coordinates(-61.161, -17.371, 0);
+  chassis.set_coordinates(-61, -17, 0);
   leftGroup.setVelocity(60, percent);
   rightGroup.setVelocity(60, percent);
   IntakeSystem.setVelocity(80, percent);
   OutTakeSystem.setVelocity(80, percent);
   // Getting 3 blocks at center goal
-  chassis.drive_distance(32);
-  chassis.turn_to_angle(-30);
-  chassis.drive_distance(7.9);
+  chassis.drive_distance(24.5);
+  //chassis.turn_to_angle(-20);
   IntakeSystem.spin(reverse);
-  vex::task::sleep(3000);
-  chassis.turn_to_angle(-130);
-  chassis.drive_distance(34.6);
-  //We might not be able to matchload
-  //Long Goal
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(-16);
+  chassis.drive_distance(14.4);
+  //chassis.turn_to_angle(0);
+  chassis.drive_distance(13);
+  IntakeSystem.stop();
+  //Long goal
+  //chassis.turn_to_angle(-145);
+  chassis.drive_distance(44);
+  //chassis.turn_to_angle(-180);
+  chassis.drive_distance(-16.5);
+  OutTakeSystem.spin(reverse);
+  IntakeSystem.spin(reverse);
+  wait(1500, msec);
+  OutTakeSystem.stop();
+  IntakeSystem.stop();
+  //Matchloader
+  leftGroup.setVelocity(100, percent);
+  rightGroup.setVelocity(100, percent);
+  Scraper.set(true);
+  IntakeSystem.spin(reverse);
+  chassis.drive_distance(28);
+  wait(2500, msec);
+  IntakeSystem.stop();
+  chassis.drive_distance(-28);
   IntakeSystem.spin(reverse);
   OutTakeSystem.spin(reverse);
-
-  vex::task::sleep(3000);
-
-  IntakeSystem.stop();
-  OutTakeSystem.stop();
-}
-
-void blue_right()
-{
-  chassis.set_coordinates(61.161, 17.371, 180);
-  leftGroup.setVelocity(60, percent);
-  rightGroup.setVelocity(60, percent);
-  IntakeSystem.setVelocity(80, percent);
-  OutTakeSystem.setVelocity(80, percent);
-  // Getting 3 blocks at center goal
-  chassis.drive_distance(32);
-  chassis.turn_to_angle(130);
-  chassis.drive_distance(7.9);
-  IntakeSystem.spin(reverse);
-  vex::task::sleep(3000);
-  chassis.turn_to_angle(50);
-  chassis.drive_distance(34.6);
-  //We might not be able to matchload
-  //Long Goal
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(-16);
-  IntakeSystem.spin(reverse);
-  OutTakeSystem.spin(reverse);
-
-  vex::task::sleep(3000);
-
-  IntakeSystem.stop();
-  OutTakeSystem.stop();
-}
-
-void blue_left()
-{
-  chassis.set_coordinates(61.161, -17.371, 180);
-  leftGroup.setVelocity(60, percent);
-  rightGroup.setVelocity(60, percent);
-  IntakeSystem.setVelocity(80, percent);
-  OutTakeSystem.setVelocity(80, percent);
-  // Getting 3 blocks at center goal
-  chassis.drive_distance(32);
-  chassis.turn_to_angle(-130);
-  chassis.drive_distance(7.9);
-  IntakeSystem.spin(reverse);
-  vex::task::sleep(3000);
-  chassis.turn_to_angle(-50);
-  chassis.drive_distance(34.6);
-  //We might not be able to matchload
-  //Long Goal
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(-16);
-  IntakeSystem.spin(reverse);
-  OutTakeSystem.spin(reverse);
-
-  vex::task::sleep(3000);
-
-  IntakeSystem.stop();
-  OutTakeSystem.stop();
+  task::sleep(500);
 }
 
 void skills()
 {
-  // skills auton code here
-  return;
+  //Start redLeft
 }
 void drive_test()
 {
